@@ -1,7 +1,7 @@
 import re
 
 
-reg = "(?i:mailto: [a-z0-9]+@[a-z0-9]+\.[a-z]+\?subject=[a-z0-9]{0,64})"
+reg = "(?i:mailto: [a-z0-9]+@[a-z0-9]+\.[a-z]+(\?subject=[a-z0-9]{1,64}))"
 reg_user = "(?i:: [a-z0-9]+@)"
 in_file = open("input.txt", "r")
 out_file = open("output.txt", "w")
