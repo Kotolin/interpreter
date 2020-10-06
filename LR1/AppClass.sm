@@ -1,0 +1,78 @@
+%start Map1::Start
+%class AppClass
+
+%map Map1
+%%
+// State        Transition      End State       Action(s)
+Start
+{
+                symb(c : char, counter : int)[counter == 0 and c == "m"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 1 and c == "a"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 2 and c == "i"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 3 and c == "l"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 4 and c == "t"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 5 and c == "o"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 6 and c == ":"]               UserName     {ResetCounter();}
+}
+
+
+UserName
+{
+                symb(c : char, counter : int) [(c >= "a" and c<="z") or (c >= "A" and c <= "Z") or (c >= "0" and c <= "9")]               nil     {Counter();}
+		symb(c : char, counter : int) [c == "@"]				ServName	{Save_name();ResetCounter();}
+}
+
+
+ServName
+{
+                symb(c : char, counter : int) [(c >= "a" and c<="z") or (c >= "A" and c <= "Z") or (c >= "0" and c <= "9")]               nil     {Counter();}
+		symb(c : char, counter : int) [c == "."]				ZoneName	{ResetCounter();}
+}
+
+
+ZoneName
+{
+                symb(c : char, counter : int) [(c >= "a" and c<="z") or (c >= "A" and c <= "Z")]               nil     {Counter();}
+		symb(c : char, counter : int) [c == "?"]				GetSubject	{ResetCounter();}
+		symb(c : char, counter : int)[c == '\n']				OK			{Acceptable();}
+}
+
+
+GetSubject
+{
+                symb(c : char, counter : int)[counter == 0 and c == "s"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 1 and c == "u"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 2 and c == "b"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 3 and c == "j"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 4 and c == "e"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 5 and c == "c"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 6 and c == "t"]               nil     {Counter();}
+		symb(c : char, counter : int)[counter == 7 and c == "="]               Subj     {ResetCounter();}
+}
+
+
+Subj
+{
+                symb(c : char, counter : int) [((c >= "a" and c<="z") or (c >= "A" and c<="Z") or (c >= "0" and c <= "9")) and counter <= 64]               nil     {Counter();}
+		symb(c : char, counter : int)[c == '\n' and counter <= 64]		OK			{Acceptable();}
+				
+}
+
+
+OK
+{}
+
+
+Error
+{
+                EOS(counter : int)             nil             {Unacceptable();}
+}
+
+
+Default
+{
+                symb(c : char, counter : int)		Error           {}
+		EOS(counter : int)	         	Error           {Unacceptable();}
+}
+
+%%
