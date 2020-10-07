@@ -6,10 +6,11 @@ alphabet = set("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM")
 usernames = {}
 
 def get_stats(name, username):
-    if name in username:
-        usernames[name] += 1
-    else:
-        usernames[name] = 1
+    if name != "":
+        if name in username:
+            usernames[name] += 1
+        else:
+            usernames[name] = 1
 
 class AppClass:
     def __init__(self):
