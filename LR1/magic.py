@@ -2,15 +2,16 @@ import AppClass_sm
 
 
 alphabet = set("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM")
-#ex_alphabet = set("_.qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM")
 usernames = {}
 
+
 def get_stats(name, username):
-    if name != "":
+    if username != "":
         if name in username:
             usernames[name] += 1
         else:
             usernames[name] = 1
+
 
 class AppClass:
     def __init__(self):
@@ -42,6 +43,7 @@ class AppClass:
             self._fsm.symb(c, self.counter)
         return self._is_acceptable, self.username
 
+
 try:
     with open("data.txt") as f:
         for string in f:
@@ -49,7 +51,8 @@ try:
             print('--')
             print(string.rstrip('\n'))
             flag, f_name = checker.check(string)
-            get_stats(f_name, usernames)
+            if flag:
+                get_stats(f_name, usernames)
             print(str(flag) + " " + f_name)
 except IOError as e:
     print("No file found")
